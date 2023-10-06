@@ -39,6 +39,19 @@ def solveRouting(g: graph.Graph, demands):
             gain.append((route, profit))
 
     gain.sort(key=lambda x: x[1], reverse=True)
-
+    i = 0
     for x in gain:
-        print("route and demand:", x[0], "gain:", x[1])
+        print(i, "route and demand:", x[0], "gain:", x[1])
+        i+=1
+
+    print(check_fusion(gain[30][0], gain[7][0]))
+
+
+def check_fusion(x: Rota, y: Rota):
+    print(x, "X", y)
+    n2 = y.rotas
+    for n1 in x.rotas:
+        if n1 == n2[0] or n1 == n2[len(n2) - 1]:
+            return True
+
+    return False

@@ -44,7 +44,13 @@ def solveRouting(g: graph.Graph, demands):
         print(i, "route and demand:", x[0], "gain:", x[1])
         i+=1
 
-    print(check_fusion(gain[30][0], gain[7][0]))
+    for i in range(len(gain)):
+        curr = gain[i]
+        for j in range(i + 1, len(gain)):
+            target = gain[j]
+            if check_fusion(curr[0], target[0]):
+
+
 
 
 def check_fusion(x: Rota, y: Rota):

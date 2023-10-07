@@ -49,15 +49,27 @@ def solveRouting(g: graph.Graph, demands):
         for j in range(i + 1, len(gain)):
             target = gain[j]
             if check_fusion(curr[0], target[0]):
-
-
-
+                total_demand = (curr[0].demanda + target[0].demanda)
+                if(total_demand < 40):
+                    fusion_route = Rota()
+                    fusion_route.rotas.append(set((curr[0].rotas + target[0].rotas)))
+                    remove_demand = common_member(curr[0].rotas, target[0].rotas)
+                    fusion_route.demanda = total_demand - demands[remove_demand - 1]
+                    print(fusion_route)
 
 def check_fusion(x: Rota, y: Rota):
-    print(x, "X", y)
     n2 = y.rotas
     for n1 in x.rotas:
         if n1 == n2[0] or n1 == n2[len(n2) - 1]:
             return True
 
     return False
+
+def common_member(a, b):
+    a_set = set(a)
+    b_set = set(b)
+ 
+    if (a_set & b_set):
+        return ((a_set & b_set).pop())
+    else:
+        return 0

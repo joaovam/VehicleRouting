@@ -70,6 +70,7 @@ def solveRouting(g: graph.Graph, demands):
                     print(fusion_route)
     return verify_routes(routes, len(demands))
 
+
 def verify_routes(routes:list[Rota], n):
     c = routes.copy()
     c.reverse()
@@ -79,8 +80,6 @@ def verify_routes(routes:list[Rota], n):
     should_append = False
     for r in c:
         for x in r.rotas:
-            print(supplied)
-            print(x)
             if not supplied[x]:
                 supplied[x] = True
                 should_append = True
@@ -89,6 +88,8 @@ def verify_routes(routes:list[Rota], n):
             solution.append(r)
         should_append = False
     return solution
+
+
 def check_fusion(x: Rota, y: Rota):
     n2 = y.rotas
 

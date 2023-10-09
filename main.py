@@ -21,7 +21,10 @@ def main():
 
     demands = [10, 15, 18, 17, 3, 5, 9, 4, 6]
 
-    routing.solveRouting(g, demands)
+    routes = routing.solveRouting(g, demands)
+    for r in routes:
+        print(r)
+    print("Number of routes: ", len(routes))
 
 if __name__ == '__main__':
     main()

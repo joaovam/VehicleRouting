@@ -41,35 +41,84 @@ def solveRouting(g: graph.Graph, demands):
     gain.sort(key=lambda x: x[1], reverse=True)
     i = 0
     for x in gain:
-        print(i, "route and demand:", x[0], "gain:", x[1])
-        i+=1
+        # print(i, "route and demand:", x[0], "gain:", x[1])
+        i += 1
 
-    for i in range(len(gain)):
-        curr = gain[i]
-        for j in range(i + 1, len(gain)):
-            target = gain[j]
-            if check_fusion(curr[0], target[0]):
-                total_demand = (curr[0].demanda + target[0].demanda)
-                if(total_demand < 40):
+    routes = list()
+    for r in gain:
+        print(r)
+        routes.append(r[0])
+
+
+    for i in range(len(routes)):
+        curr = routes[i]
+        for j in range(len(routes)):
+            target = routes[j]
+            if check_fusion(curr, target):
+                remove_demand = common_member(curr.rotas, target.rotas)
+
+                total_demand = (curr.demanda + target.demanda) - demands[remove_demand - 1]
+                print("check: ", curr, target, "demand: ", total_demand)
+
+                if total_demand < 40:
                     fusion_route = Rota()
-                    fusion_route.rotas.append(set((curr[0].rotas + target[0].rotas)))
-                    remove_demand = common_member(curr[0].rotas, target[0].rotas)
-                    fusion_route.demanda = total_demand - demands[remove_demand - 1]
+                    fusion_route.rotas = makes_fusion(curr.rotas, target.rotas)
+
+                    fusion_route.demanda = total_demand
+                    if fusion_route.rotas not in routes:
+                        routes.append(fusion_route)
                     print(fusion_route)
+    return routes
+
 
 def check_fusion(x: Rota, y: Rota):
     n2 = y.rotas
-    for n1 in x.rotas:
-        if n1 == n2[0] or n1 == n2[len(n2) - 1]:
-            return True
 
+    skip = True
+
+    for n1 in x.rotas:
+        if n1 not in n2:
+            skip = False
+
+    if not skip:
+        for n1 in x.rotas:
+            if n1 == n2[0] or n1 == n2[len(n2) - 1]:
+                return True
+    #print(x, "X", y, skip)
     return False
+
 
 def common_member(a, b):
     a_set = set(a)
     b_set = set(b)
- 
-    if (a_set & b_set):
-        return ((a_set & b_set).pop())
+
+    if a_set & b_set:
+        return (a_set & b_set).pop()
     else:
         return 0
+
+
+def makes_fusion(a, b):
+    solution = []
+    if a[0] == b[0]:
+        solution.extend(b)
+        solution.extend(a[1:])
+    elif a[0] == b[len(b) - 1]:
+        solution.extend(b)
+        solution.extend(a[1:])
+    elif a[len(a) - 1] == b[0]:
+        solution.extend(a)
+        solution.extend(b[1:])
+    else:
+        solution.extend(a)
+        b = b[:-1]
+        b.reverse()
+        solution.extend(b)
+
+    return f(solution)
+
+
+def f(seq):  # Order preserving
+    ''' Modified version of Dave Kirby solution '''
+    seen = set()
+    return [x for x in seq if x not in seen and not seen.add(x)]

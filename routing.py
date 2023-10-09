@@ -68,9 +68,27 @@ def solveRouting(g: graph.Graph, demands):
                     if fusion_route.rotas not in routes:
                         routes.append(fusion_route)
                     print(fusion_route)
-    return routes
+    return verify_routes(routes, len(demands))
 
+def verify_routes(routes:list[Rota], n):
+    c = routes.copy()
+    c.reverse()
 
+    supplied = [False] * (n + 1)
+    solution = []
+    should_append = False
+    for r in c:
+        for x in r.rotas:
+            print(supplied)
+            print(x)
+            if not supplied[x]:
+                supplied[x] = True
+                should_append = True
+
+        if should_append:
+            solution.append(r)
+        should_append = False
+    return solution
 def check_fusion(x: Rota, y: Rota):
     n2 = y.rotas
 

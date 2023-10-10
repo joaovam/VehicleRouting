@@ -75,12 +75,12 @@ def solveRouting(g: graph.Graph, demands):
                     print(fusion_route)
             j += 1
         i += 1
-    return routes#verify_routes(routes, len(demands))
+    return verify_routes(routes, len(demands))
 
 
 def verify_routes(routes: list[Rota], n):
     c = routes.copy()
-    c.reverse()
+    c = sorted(c, key=lambda x: len(x.rotas), reverse=True)
 
     supplied = [False] * (n + 1)
     solution = []

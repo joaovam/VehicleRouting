@@ -46,13 +46,14 @@ def solveRouting(g: graph.Graph, demands):
 
     routes = list()
     for r in gain:
-        print(r)
+        #print(r)
         routes.append(r[0])
-
-
-    for i in range(len(routes)):
+    i = 0
+    while i < len(routes):
         curr = routes[i]
-        for j in range(len(routes)):
+        j = 0
+        while j < len(routes):
+            print(i, j, len(routes))
             target = routes[j]
             if check_fusion(curr, target):
                 remove_demand = common_member(curr.rotas, target.rotas)
@@ -65,13 +66,19 @@ def solveRouting(g: graph.Graph, demands):
                     fusion_route.rotas = makes_fusion(curr.rotas, target.rotas)
 
                     fusion_route.demanda = total_demand
-                    if fusion_route.rotas not in routes:
-                        routes.append(fusion_route)
+                    routes.remove(target)
+                    routes.remove(curr)
+                    print(routes[i])
+                    curr = fusion_route
+                    routes.append(curr)
+
                     print(fusion_route)
-    return verify_routes(routes, len(demands))
+            j += 1
+        i += 1
+    return routes#verify_routes(routes, len(demands))
 
 
-def verify_routes(routes:list[Rota], n):
+def verify_routes(routes: list[Rota], n):
     c = routes.copy()
     c.reverse()
 
@@ -103,7 +110,7 @@ def check_fusion(x: Rota, y: Rota):
         for n1 in x.rotas:
             if n1 == n2[0] or n1 == n2[len(n2) - 1]:
                 return True
-    #print(x, "X", y, skip)
+    # print(x, "X", y, skip)
     return False
 
 

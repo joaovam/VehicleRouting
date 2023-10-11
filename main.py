@@ -22,11 +22,20 @@ def main():
     demands = [10, 15, 18, 17, 3, 5, 9, 4, 6]
 
     routes = routing.solveRouting(g, demands)
-    cost = 0
+    print(f"Rotas descobertas: {len(routes)}")
+    print_routes(routes)
+
+
+    necessary_routes = routing.verify_routes( routes,len(demands))
+
+    print(f"Rotas necessárias: {len(necessary_routes)}")
+    print_routes(necessary_routes)
+
+
+def print_routes(routes):
     for r in routes:
         print(r)
-        #cost += r.
-    print("Number of routes: ", len(routes))
+
 
 if __name__ == '__main__':
     main()

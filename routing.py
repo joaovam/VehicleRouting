@@ -98,36 +98,6 @@ def verify_routes(routes: list[Rota], n):
     return solution
 
 
-def calc_costs(routes:list[Rota], ):
-
-
-def calc_time_routes(routes: list, vehicles:int):
-
-    routes_cost = []
-    for r in routes:
-        routes_cost.append(r.demanda)
-    routes_splitted = list(divide_chunks(len(routes), vehicles))
-
-    difference = 0
-    cost = 0
-    for r in routes_splitted:
-        m, n = max(r), min(r)
-
-        new_max = m - difference
-
-        r.remove(m)
-        r.append(new_max)
-        m = max(r)
-
-        difference = m - n
-        cost += m
-
-
-def divide_chunks(l, n):
-    # looping till length l
-    for i in range(0, len(l), n):
-        yield l[i:i + n]
-
 def check_fusion(x: Rota, y: Rota):
     n2 = y.rotas
 

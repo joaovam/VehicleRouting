@@ -8,7 +8,7 @@ class Rota:
         self.custo = 0
 
     def __str__(self):
-        return f"{self.rotas}, {self.demanda}"
+        return f"{self.rotas}, demanda: {self.demanda}"
 
 
 def solveRouting(g: graph.Graph, demands):
@@ -146,6 +146,5 @@ def makes_fusion(a, b):
 
 
 def f(seq):  # Order preserving
-    ''' Modified version of Dave Kirby solution '''
     seen = set()
     return [x for x in seq if x not in seen and not seen.add(x)]
